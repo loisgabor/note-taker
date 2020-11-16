@@ -1,0 +1,14 @@
+## Setup
+- Create a "server.js"
+- npm init -y  (generate package.json)
+- npm install express
+
+## Build the basic server
+- require express
+- create an instance of express
+- set the port (process.env.PORT)
+- listen to port
+- add middleware
+
+## Build Routes
+
