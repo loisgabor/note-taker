@@ -19,22 +19,59 @@ app.get("*", (req, res) => {
 });
 
 //API ROUTES
-app.get("/api/notes", (req, res) => {
-  return res.json(
-    JSON.parse(fs.readFileSync(path.join(__dirname, "./db/db.json")))
-  );
-});
+// app.get("/api/notes", (req, res) => {
+//   return res.json(
+//     JSON.parse(fs.readFileSync(path.join(__dirname, "./db/db.json")))
+//   );
+// });
+// app.get("/api/notes", (req, res) => {
+//   // read file
+//   fs.readFile("./db/db.json", "utf-8", (err, data) => {
+//     if (err) {
+//       throw err;
+//     } else {
+//       const notes = JSON.parse(data);
+//       const newNote = { ...req.body, id: notes.length };
+//       //   let newNote = req.body;
+//       //   newNote.id = uuidv4();
+//       const notes = JSON.parse(data);
+//       notes.push(newNote);
+//     }
+//   });
+//   // return res.json(notes)
+// });
 
 app.post("/api/notes", (req, res) => {
-  const newNote = req.body;
-  newNote.id = uuidv4();
-  const notes = JSON.parse(
-    fs.readFileSync(path.join(__dirname, "./db/db.json"))
-  );
+  //  (
+  //     fs.readFileSync(path.join(__dirname, "./db/db.json"))
+  //   );
+  fs.readFile("./db/db.json", "utf-8", (err, data) => {
+    if (err) {
+      throw err;
+    } else {
+      const notesTwo = JSON.parse(data);
+      const newNote = { ...req.body, id: notesTwo.length };
+      //   let newNote = req.body;
+      //   newNote.id = uuidv4();
 
-  fs.writeFileSync(path.join(__dirname, "./db/db.json"), JSON.stringify(notes));
-  notes.push(newNote);
-  return res.json(notes);
+      notes.push(newNote);
+      fs.writeFile(
+        "./db/db.json",
+        JSON.stringify(notesTwo),
+        "utf-8",
+        (err, data) => {
+          if (err) {
+            throw err;
+          } else {
+            return res.json(notesTwo);
+          }
+        }
+      );
+    }
+  });
+
+  //   notes.push(newNote);
+  //   return res.json(notes);
 });
 app.delete("/api/notes/:id", (req, res) => {
   let id = parseInt(req.params.id);
