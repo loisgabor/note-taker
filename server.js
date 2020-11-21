@@ -6,17 +6,10 @@ const { v4: uuidv4 } = require("uuid");
 const notes = [];
 const fs = require("fs");
 
+//Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
-
-//VIEW ROUTES
-app.get("/notes", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/notes.html"));
-});
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
-});
 
 //API ROUTES
 app.get("/api/notes", (req, res) => {
@@ -24,6 +17,9 @@ app.get("/api/notes", (req, res) => {
     JSON.parse(fs.readFileSync(path.join(__dirname, "./db/db.json")))
   );
 });
+// app.get("/api/notes:id", (req, res) => {
+//   res.json(data, req.params.id);
+// });
 
 app.post("/api/notes", (req, res) => {
   let newNote = req.body;
@@ -32,10 +28,14 @@ app.post("/api/notes", (req, res) => {
     fs.readFileSync(path.join(__dirname, "./db/db.json"))
   );
   notes.push(newNote);
+  //   fs.readFileSync(path.join(__dirname, "./db/db.json"));
+
   return res.json(notes);
 });
+
 app.delete("/api/notes/:id", (req, res) => {
-  let id = parseInt(req.params.id);
+  let id = req.params.id;
+  console.log(`the id for this route is ${id}`);
   const notesToDelete = JSON.parse(
     fs.readFileSync(path.join(__dirname, "./db/db.json"))
   );
@@ -47,6 +47,15 @@ app.delete("/api/notes/:id", (req, res) => {
 
   return res.json(notesToDelete);
 });
+
+//VIEW ROUTES
+app.get("/notes", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/notes.html"));
+});
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
