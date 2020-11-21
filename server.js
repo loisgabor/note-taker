@@ -17,9 +17,6 @@ app.get("/api/notes", (req, res) => {
     JSON.parse(fs.readFileSync(path.join(__dirname, "./db/db.json")))
   );
 });
-// app.get("/api/notes:id", (req, res) => {
-//   res.json(data, req.params.id);
-// });
 
 app.post("/api/notes", (req, res) => {
   let newNote = req.body;
@@ -28,9 +25,11 @@ app.post("/api/notes", (req, res) => {
     fs.readFileSync(path.join(__dirname, "./db/db.json"))
   );
   notes.push(newNote);
-  //   fs.readFileSync(path.join(__dirname, "./db/db.json"));
+  console.log(notes);
+  let stringedNotes = JSON.stringify(notes);
+  return res.json(fs.writeFileSync("./db/db.json", stringedNotes));
 
-  return res.json(notes);
+  //   return res.json(notes);
 });
 
 app.delete("/api/notes/:id", (req, res) => {
@@ -39,14 +38,9 @@ app.delete("/api/notes/:id", (req, res) => {
   const notes = JSON.parse(
     fs.readFileSync(path.join(__dirname, "./db/db.json"))
   );
-
   let saveNote = notes.filter((note) => note.id != id);
-
-  //   deleteNote.forEach((element) => (element.id = deleteNote.indexOf(element)));
-
   fs.writeFileSync("./db/db.json", JSON.stringify(saveNote));
-
-  return res.json();
+  return res.json(saveNote);
 });
 
 //VIEW ROUTES
