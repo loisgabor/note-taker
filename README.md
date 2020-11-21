@@ -17,7 +17,7 @@ https://polar-cove-12928.herokuapp.com/
 
 ## Usage
 
-Run site and input notes
+Run site and input notes. In order to input a new note, one would have to click save, and then refresh the page for the new note to appear.
 
 ## License
 
