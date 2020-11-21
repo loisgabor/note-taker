@@ -36,16 +36,17 @@ app.post("/api/notes", (req, res) => {
 app.delete("/api/notes/:id", (req, res) => {
   let id = req.params.id;
   console.log(`the id for this route is ${id}`);
-  const notesToDelete = JSON.parse(
+  const notes = JSON.parse(
     fs.readFileSync(path.join(__dirname, "./db/db.json"))
   );
 
-  let deleteNote = notesToDelete.filter((notes) => note.id != id);
-  deleteNote.forEach((element) => (element.id = deleteNote.indexOf(element)));
+  let saveNote = notes.filter((note) => note.id != id);
 
-  fs.writeFileSync("./db/db.json", JSON.stringify(deleteNote));
+  //   deleteNote.forEach((element) => (element.id = deleteNote.indexOf(element)));
 
-  return res.json(notesToDelete);
+  fs.writeFileSync("./db/db.json", JSON.stringify(saveNote));
+
+  return res.json();
 });
 
 //VIEW ROUTES
