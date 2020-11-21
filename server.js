@@ -27,7 +27,8 @@ app.post("/api/notes", (req, res) => {
   notes.push(newNote);
   console.log(notes);
   let stringedNotes = JSON.stringify(notes);
-  return res.json(fs.writeFileSync("./db/db.json", stringedNotes));
+  fs.writeFileSync("./db/db.json", stringedNotes);
+  return res.json(stringedNotes);
 
   //   return res.json(notes);
 });
